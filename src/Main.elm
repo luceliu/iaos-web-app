@@ -1,56 +1,79 @@
-module Main exposing (..)
+module Main exposing (main)
 
 import Browser
-import Html exposing (Html, text, div, h1, img)
-import Html.Attributes exposing (src)
-
-
----- MODEL ----
-
-
-type alias Model =
-    {}
-
-
-init : ( Model, Cmd Msg )
-init =
-    ( {}, Cmd.none )
+import Css exposing (..)
+import Html
+import Html.Styled exposing (..)
+import Html.Styled.Attributes exposing (css, href, src)
+import Html.Styled.Events exposing (onClick)
+import Styles exposing (..)
+import Elements exposing (..)
 
 
 
----- UPDATE ----
+
+{-| A plain old record holding a couple of theme colors.
+-}
+theme : { secondary : Color, primary : Color }
+theme =
+    { primary = hex "55af6a"
+    , secondary = rgb 250 240 230
+    }
+
+mycolors : {black : Color}
+mycolors =
+    { black = rgb 0 0 0}
 
 
-type Msg
-    = NoOp
+{-| Css.property lets you define custom properties, using strings as their values.
+-}
+legacyBorderRadius : String -> Style
+legacyBorderRadius amount =
+    Css.batch
+        [ property "-moz-border-radius" amount
+        , property "-webkit-border-top-left-radius" amount
+        , property "-webkit-border-top-right-radius" amount
+        , property "-webkit-border-bottom-right-radius" amount
+        , property "-webkit-border-bottom-left-radius" amount
+        , property "border-radius" amount
+        ]
 
-
-update : Msg -> Model -> ( Model, Cmd Msg )
-update msg model =
-    ( model, Cmd.none )
-
-
-
----- VIEW ----
+{- Actual HTML stuff:
+-}
 
 
 view : Model -> Html Msg
 view model =
-    div []
-        [ img [ src "/logo.svg" ] []
-        , h1 [] [ text "Your Elm App is working!" ]
+    div [ css [backgroundColor (rgb 116 97 145)]]
+        [ topNav
+        , twoColumns Elements.logo (text "Smol cute pics of animals or whatever") 
+        , upcomingEvents
+        , blogPosts
+        , text lorem 
         ]
-
-
-
----- PROGRAM ----
-
 
 main : Program () Model Msg
 main =
-    Browser.element
-        { view = view
-        , init = \_ -> init
+    Browser.sandbox
+        { view = view >> toUnstyled
         , update = update
-        , subscriptions = always Sub.none
+        , init = initialModel
         }
+
+
+update : Msg -> Model -> Model
+update msg model =
+    model
+
+
+type Msg
+    = DoSomething
+
+
+type alias Model =
+    ()
+
+
+initialModel : Model
+initialModel =
+    ()
