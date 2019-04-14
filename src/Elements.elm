@@ -49,11 +49,27 @@ logo =
         ]
         []
 
+headroom : Html msg
+headroom =
+    div [ css
+            [ headroomUnfixedStyle ]
+        ]
+    [topNav]
+
+-- Nav bar is within a div wrapper 'headroom'
 topNav : Html msg
 topNav =
-    nav []
+--    Attributes
+    nav
+        [ css
+        [ ] ]
+--    Children
     [
-
+     a [href "/about"] [text ("About")]
+     , a [href "/events"] [text ("Events")]
+     , a [href "/blog"] [text ("Blog")]
+     , a [href "/team"] [text ("Team")]
+     , a [href "/contact"] [text ("Contacts")]
     ]
 
 upcomingEvents : Html msg

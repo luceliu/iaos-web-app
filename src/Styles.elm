@@ -12,6 +12,14 @@ import Html.Styled.Events exposing (onClick)
 {-| A reusable style. Css.batch combines multiple styles into one, much
 like mixins in CSS preprocessors.
 -}
+h1Font : Style
+h1Font =
+    Css.batch
+        [fontFamilies ["Rubik"]
+        , fontWeight bold
+        , fontSize (rem 4)
+        ]
+
 paragraphFont : Style
 paragraphFont =
     Css.batch
@@ -39,4 +47,10 @@ rowstyle =
         ]
     ]
 
-
+headroomUnfixedStyle : Style
+headroomUnfixedStyle =
+    Css.batch
+    [position relative
+    , flex auto
+    , height (px 60)
+    , backgroundColor (hex "353747")]

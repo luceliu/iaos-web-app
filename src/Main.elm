@@ -44,8 +44,8 @@ legacyBorderRadius amount =
 
 view : Model -> Html Msg
 view model =
-    div [ css [backgroundColor (rgb 116 97 145)]]
-        [ topNav
+    div []
+        [ headroom
         , twoColumns Elements.logo (text "Smol cute pics of animals or whatever") 
         , upcomingEvents
         , blogPosts
