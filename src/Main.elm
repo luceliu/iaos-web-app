@@ -13,6 +13,7 @@ import Browser.Navigation as Nav
 import Url exposing (Url)
 import Url.Parser as UrlParser exposing ((</>))
 
+-- PAGES
 
 {-| A plain old record holding a couple of theme colors.
 -}
@@ -40,19 +41,8 @@ legacyBorderRadius amount =
         , CSS.property "border-radius" amount
         ]
 
-{- Actual HTML stuff:
--}
 
-
-view : Model -> Document Msg -- document?
---view model =
---    div []
---        [ headroom
---        , twoColumns Elements.logo (text "Smol cute pics of animals or whatever")
---        , upcomingEvents
---        , blogPosts
---        , text lorem
---        ]
+view : Model -> Document Msg
 
 view model =
     let
@@ -64,10 +54,27 @@ view model =
 
         menu =
             div [ HA.style "padding" "10px", HA.style "border-bottom" "1px solid #c0c0c0" ]
-                [ a [ inline, padded, HA.href "/Basics" ] [ text "Basics" ]
-                , a [ inline, padded, HA.href "/Maybe" ] [ text "Maybe" ]
-                , a [ inline, padded, HA.href "/List" ] [ text "List" ]
+                [ a [ inline, padded, HA.href "/about" ] [ text "About" ]
+                , a [ inline, padded, HA.href "/events" ] [ text "Events" ]
+                , a [ inline, padded, HA.href "/blog" ] [ text "Blog" ]
+                , a [ inline, padded, HA.href "/team" ] [ text "Team" ]
+                , a [ inline, padded, HA.href "/contact" ] [ text "Contact" ]
                 ]
+        pageBody =
+            case model.route of
+                Just route ->
+                    case Tuple.first route of
+                        "about" -> div [] [text ("About")]
+                        "events" -> div [] [text ("Events")]
+                        "blog" -> div [] [text ("Blog")]
+                        "team" -> div [] [text ("Team")]
+                        "contact" -> div [] [text ("Contact")]
+                        _ -> div [] [text ("fuck this im out")]
+
+--                    div [] [text (Tuple.first route)]
+
+                Nothing ->
+                    h3 [] [text "Home page goes here"]
 
         title =
             case model.route of
@@ -88,6 +95,7 @@ view model =
     , body =
         [ menu
         , h2 [] [ text title ]
+        , pageBody
         ]
     }
 
@@ -134,11 +142,7 @@ init : () -> Url -> Nav.Key -> ( Model, Cmd Msg )
 init _ url navKey =
     ( { navKey = navKey, route = UrlParser.parse docsParser url }, Cmd.none )
 
+
 docsParser : UrlParser.Parser (DocsRoute -> a) a
 docsParser =
     UrlParser.map Tuple.pair (UrlParser.string </> UrlParser.fragment identity)
-
-
---initialModel : Model
---initialModel =
---    ()
