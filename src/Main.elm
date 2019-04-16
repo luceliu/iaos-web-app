@@ -1,144 +1,161 @@
-module Main exposing (main)
+module Main exposing (..)
+import Browser
+import Html exposing (Html, text, div, h1, img,p,button, input)
+import Html.Attributes exposing (..)
+import Html.Events exposing(..)
+import Http
+import Json.Decode exposing (Decoder, field, string)
 
-import Browser exposing (Document, UrlRequest(..))
-import Css as CSS exposing (..)
-import Html exposing (..)
-import Html.Attributes as HA exposing (..)
---import Html.Styled exposing (..)
-import Html.Styled.Attributes exposing (..)
-import Html.Styled.Events exposing (onClick)
-import Styles exposing (..)
-import Elements exposing (..)
-import Browser.Navigation as Nav
-import Url exposing (Url)
-import Url.Parser as UrlParser exposing ((</>))
+---- MODEL ----
 
+-- type Status
+--   = Failure
+--   | Loading
+--   | Success String
 
-{-| A plain old record holding a couple of theme colors.
--}
-theme : { secondary : Color, primary : Color }
-theme =
-    { primary = hex "55af6a"
-    , secondary = rgb 250 240 230
+type alias Model =
+    {
+        breed : String
+        , status : String
+        , url : String
     }
+    
 
-mycolors : {black : Color}
-mycolors =
-    { black = rgb 0 0 0}
-
-
-{-| Css.property lets you define custom properties, using strings as their values.
--}
-legacyBorderRadius : String -> Style
-legacyBorderRadius amount =
-    CSS.batch
-        [ CSS.property "-moz-border-radius" amount
-        , CSS.property "-webkit-border-top-left-radius" amount
-        , CSS.property "-webkit-border-top-right-radius" amount
-        , CSS.property "-webkit-border-bottom-right-radius" amount
-        , CSS.property "-webkit-border-bottom-left-radius" amount
-        , CSS.property "border-radius" amount
-        ]
-
-{- Actual HTML stuff:
--}
+init : ( Model, Cmd Msg )
+init =
+    ( Model "African" "" "", getDogPic "African")
 
 
-view : Model -> Document Msg -- document?
---view model =
---    div []
---        [ headroom
---        , twoColumns Elements.logo (text "Smol cute pics of animals or whatever")
---        , upcomingEvents
---        , blogPosts
---        , text lorem
---        ]
 
-view model =
-    let
-        inline =
-            HA.style "display" "inline-block"
+---- UPDATE ----
 
-        padded =
-            HA.style "padding" "10px"
-
-        menu =
-            div [ HA.style "padding" "10px", HA.style "border-bottom" "1px solid #c0c0c0" ]
-                [ a [ inline, padded, HA.href "/Basics" ] [ text "Basics" ]
-                , a [ inline, padded, HA.href "/Maybe" ] [ text "Maybe" ]
-                , a [ inline, padded, HA.href "/List" ] [ text "List" ]
-                ]
-
-        title =
-            case model.route of
-                Just route ->
-                    Tuple.first route
-                        ++ (case Tuple.second route of
-                                Just function ->
-                                    "." ++ function
-
-                                Nothing ->
-                                    ""
-                           )
-
-                Nothing ->
-                    "Invalid route"
-    in
-    { title = "URL handling example"
-    , body =
-        [ menu
-        , h2 [] [ text title ]
-        ]
-    }
-
-main : Program () Model Msg
-main =
-    Browser.application
-        { init = init
-        , update = update
-        , view = view
-        , subscriptions = \_ -> Sub.none
-        , onUrlRequest = ClickLink
-        , onUrlChange = ChangeUrl
-        }
+-- https://dog.ceo/api/breed/  --- /images/random
 
 
-update : Msg -> Model -> ( Model, Cmd Msg)
-update msg model =
-    case msg of
-        ChangeUrl url ->
-            ( { model | route = UrlParser.parse docsParser url }, Cmd.none )
 
-        ClickLink urlRequest ->
-            case urlRequest of
-                Internal url ->
-                    ( model, Nav.pushUrl model.navKey <| Url.toString url )
+--Get dog picture
 
-                External url ->
-                    ( model, Nav.load url )
+-- fetchDog: String -> (Model, Cmd Msg)
+-- fetchDog breedurl =
+--     -- (Loading
+--     -- , Http.get
+--     --     {
+--     --         url = "https://dog.ceo/api/breed/hound/images"
+--     --         , expect = Http.expectJson GotImg imgDecoder
+--     --     }
+--     -- )
+--     *()
+
 
 
 type Msg
-    = ChangeUrl Url
-    | ClickLink UrlRequest
+    = SetBreed String
+    | SearchCustom
+    | CustomBreed String
+    | GotImg (Result Http.Error String)
 
-type alias DocsRoute =
-    ( String, Maybe String )
 
-type alias Model =
-    { navKey : Nav.Key
-    , route : Maybe DocsRoute
+update : Msg -> Model -> ( Model, Cmd Msg )
+update msg model =
+    case msg of
+        SearchCustom ->
+            ({model | status = "Loading"}, getDogPic model.breed)
+        CustomBreed value ->
+            ({model | breed = value}, Cmd.none)
+        SetBreed breed ->
+            ({model | breed = breed, status ="Loading"}, getDogPic breed)
+        GotImg result ->
+            case result of
+                Ok url ->
+                    ({model | url = url, status = "Success"}, Cmd.none)
+                
+                Err _ -> 
+                    ({model | status = "Failure"}, Cmd.none)
+    
+
+-- SUBSCRIPTIONS
+
+
+subscriptions : Model -> Sub Msg
+subscriptions model =
+  Sub.none
+
+userBreed : { breed : String}
+userBreed =
+    { breed = "African"
     }
 
-init : () -> Url -> Nav.Key -> ( Model, Cmd Msg )
-init _ url navKey =
-    ( { navKey = navKey, route = UrlParser.parse docsParser url }, Cmd.none )
 
-docsParser : UrlParser.Parser (DocsRoute -> a) a
-docsParser =
-    UrlParser.map Tuple.pair (UrlParser.string </> UrlParser.fragment identity)
+---- VIEW ----
 
 
---initialModel : Model
---initialModel =
---    ()
+view : Model -> Html Msg
+
+view model =
+    div [ ] [
+        h1 [ ] [ text ("Random Dog from breeds!")]
+        , viewDog model 
+
+    ]
+
+viewDog: Model -> Html Msg
+viewDog model =
+    if model.status == "Failure" then
+            div []
+                [ text "Can not find this breed"
+                , button [ onClick (SetBreed "Shiba") ] [ text "Try Again!" ]
+                ]
+
+    else if model.status == "Loading" then
+            text "Loading..."
+
+    else
+        div []
+            [   div []
+                [
+                button [onClick (SetBreed "Shiba")] [ text "Shiba" ]
+                , button [ onClick (SetBreed "Doberman") ] [ text "Doberman" ]
+                , button [ onClick (SetBreed "Boxer")] [ text "Boxer" ]
+                , button [ onClick (SearchCustom)] [ text "Search:" ]
+                , input [ placeholder "Try a breed!", onInput CustomBreed ] [text model.breed]
+                ]
+                ,div []
+                [
+                    img [ src model.url ] []
+                ]
+                , div[]
+                [
+                    button [onClick (SearchCustom)] [ text "More like this!" ]
+                ]
+                
+                
+
+            ]
+                
+
+-- HTTP APi stuff
+
+
+getDogPic : String -> Cmd Msg
+getDogPic breed =
+  Http.get
+    { url = ("https://dog.ceo/api/breed/" ++ breed ++ "/images/random")
+    , expect = Http.expectJson GotImg imgDecoder
+    }
+
+imgDecoder : Decoder String
+imgDecoder =
+  field "message" string
+
+
+---- PROGRAM ----
+
+
+main : Program () Model Msg
+main =
+    Browser.element
+        { view = view
+        , init = \_ -> init
+        , update = update
+        , subscriptions = subscriptions 
+        }
