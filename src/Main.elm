@@ -2,8 +2,6 @@ module Main exposing (main)
 
 import Browser exposing (Document, UrlRequest(..))
 import Css as CSS exposing (..)
---import Html exposing (..)
---import Html.Attributes exposing (..)
 import Html.Styled exposing (..)
 import Html.Styled.Attributes exposing (..)
 import Html.Styled.Events exposing (onClick)
@@ -55,7 +53,8 @@ view model =
 
         menu =
             div [ style "padding" "10px", style "border-bottom" "1px solid #c0c0c0" ]
-                [ a [ href "/about" ] [ text "About" ]
+                [ a [ href "/" ] [ text "Home" ]
+                , a [ href "/about" ] [ text "About" ]
                 , a [ href "/events" ] [ text "Events" ]
                 , a [ href "/blog" ] [ text "Blog" ]
                 , a [ href "/team" ] [ text "Team" ]
@@ -65,6 +64,7 @@ view model =
             case model.route of
                 Just route ->
                     case Tuple.first route of
+                        "" -> Pages.home
                         "about" -> Pages.about
                         "events" -> Pages.events
                         "blog" -> Pages.blog
@@ -73,7 +73,7 @@ view model =
                         _ -> Pages.home
 
                 Nothing ->
-                    Pages.default
+                    Pages.home
 
         title =
             case model.route of
@@ -88,7 +88,7 @@ view model =
                            )
 
                 Nothing ->
-                    "Invalid route"
+                    "Home"
     in
     { title = "URL handling example"
     , body = List.map toUnstyled
