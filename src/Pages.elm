@@ -31,7 +31,3 @@ team =
 contact : Html msg
 contact =
     div [ css [ border3 (px 10) solid (rgb 100 100 5) ]] [ p [] [text ("this is contact")]]
-
-default : Html msg
-default =
-    div [] [text ("should never get here")]

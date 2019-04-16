@@ -52,7 +52,8 @@ view model =
 --            HA.style "padding" "10px"
 
         menu =
-            div [ style "padding" "10px", style "border-bottom" "1px solid #c0c0c0" ]
+--            div [ style "padding" "10px", style "border-bottom" "1px solid #c0c0c0" ]
+              div [ css [ borderBottom3 (px 5) solid (hex "c0c0c0"), padding (px 10) ]]
                 [ a [ href "/" ] [ text "Home" ]
                 , a [ href "/about" ] [ text "About" ]
                 , a [ href "/events" ] [ text "Events" ]
@@ -64,7 +65,6 @@ view model =
             case model.route of
                 Just route ->
                     case Tuple.first route of
-                        "" -> Pages.home
                         "about" -> Pages.about
                         "events" -> Pages.events
                         "blog" -> Pages.blog
@@ -78,19 +78,18 @@ view model =
         title =
             case model.route of
                 Just route ->
-                    Tuple.first route
-                        ++ (case Tuple.second route of
-                                Just function ->
-                                    "." ++ function
-
-                                Nothing ->
-                                    ""
-                           )
+                    case Tuple.first route of
+                        "about" -> "About"
+                        "events" -> "Events"
+                        "blog" -> "Blog"
+                        "team" -> "Team"
+                        "contact" -> "Contact"
+                        _ -> "Home"
 
                 Nothing ->
                     "Home"
     in
-    { title = "URL handling example"
+    { title = title
     , body = List.map toUnstyled
         [ menu
         , h2 [] [ text title ]
