@@ -52,15 +52,16 @@ view model =
 --            HA.style "padding" "10px"
 
         menu =
---            div [ style "padding" "10px", style "border-bottom" "1px solid #c0c0c0" ]
-              div [ css [ borderBottom3 (px 5) solid (hex "c0c0c0"), padding (px 10) ]]
-                [ a [ href "/" ] [ text "Home" ]
-                , a [ href "/about" ] [ text "About" ]
-                , a [ href "/events" ] [ text "Events" ]
-                , a [ href "/blog" ] [ text "Blog" ]
-                , a [ href "/team" ] [ text "Team" ]
-                , a [ href "/contact" ] [ text "Contact" ]
-                ]
+--              div [ css [ borderBottom3 (px 5) solid (hex "c0c0c0"), padding (px 10) ]]
+                div [ css [ headroomUnfixedStyle ]]
+                [ div [css [margin (px 20), backgroundColor (hex "353747"), float right ] ]
+                [a [ css [ navBarLinks ], href "/" ] [ text "Home" ]
+                , a [ css [ navBarLinks ], href "/about" ] [ text "About" ]
+                , a [ css [ navBarLinks ], href "/events" ] [ text "Events" ]
+                , a [ css [ navBarLinks ], href "/blog" ] [ text "Blog" ]
+                , a [ css [ navBarLinks ], href "/team" ] [ text "Team" ]
+                , a [ css [ navBarLinks ], href "/contact" ] [ text "Contact" ]
+                ]]
         pageBody =
             case model.route of
                 Just route ->

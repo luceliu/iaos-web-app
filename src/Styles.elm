@@ -54,3 +54,13 @@ headroomUnfixedStyle =
     , flex auto
     , height (px 60)
     , backgroundColor (hex "353747")]
+
+navBarLinks : Style
+navBarLinks =
+    Css.batch
+    [ margin (px 5)
+     , color (hex "fff")
+     , textDecoration none
+     , fontSize (rem 1.5)
+     , hover [ color (hex "bbb")]
+     ]
