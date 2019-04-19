@@ -47,7 +47,7 @@ view model =
         menu =
                 div [ css [ headroomUnfixedStyle ]]
                 [ div [css [padding (px 20), float right ] ]
-                [a [ css [ navBarLinks ], href "/" ] [ text "Home" ]
+                 [a [ css [ navBarLinks ], href "/" ] [ text "Home" ]
                 , a [ css [ navBarLinks ], href "/about" ] [ text "About" ]
                 , a [ css [ navBarLinks ], href "/events" ] [ text "Events" ]
                 , a [ css [ navBarLinks ], href "/blog" ] [ text "Blog" ]

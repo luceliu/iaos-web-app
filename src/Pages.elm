@@ -26,7 +26,29 @@ blog =
 
 team : Html msg
 team =
-    div [ css [ border3 (px 10) solid (rgb 50 50 150) ]] [ p [] [text ("this is TEAM")]]
+    div
+    [ css [ border3 (px 10) solid (rgb 50 50 150) ]]
+    [ p [] [text ("this is TEAM"), teamWrapper]]
+
+teamWrapper : Html msg
+teamWrapper =
+    div
+    [ css [
+--    TODO NO NATIVE SUPPORT FOR CSS GRID, WHAT DO?
+--      margin: 0 auto;
+--      display: grid;
+--      grid-template-columns: 400px 400px 400px;
+--      grid-template-rows: 400px;
+--      grid-row-gap: 20px;
+--      width: 75%;
+--      justify-content: space-around;
+--      align-content: space-around;
+            margin2 zero auto
+            , border3 (px 2) solid (hex "00FFFF")
+--          , display
+    ]]
+    [text ("teamWrapper here")
+    , img [src "possum.jpg"] []]
 
 contact : Html msg
 contact =
