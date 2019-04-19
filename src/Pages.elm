@@ -7,6 +7,7 @@ import Html.Styled exposing (..)
 import Html.Styled.Attributes exposing (css, href, src)
 import Html.Styled.Events exposing (onClick)
 import Styles exposing (..)
+import Asset
 
 home : Html msg
 home =
@@ -48,7 +49,7 @@ teamWrapper =
 --          , display
     ]]
     [text ("teamWrapper here")
-    , img [src "possum.jpg"] []]
+    , img [Asset.src Asset.possum] []]
 
 contact : Html msg
 contact =
