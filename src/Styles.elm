@@ -7,6 +7,7 @@ import Html.Styled exposing (..)
 import Html.Styled.Attributes exposing (css, href, src)
 import Html.Styled.Events exposing (onClick)
 
+import Css.Breakpoint as Breakpoint
 
 
 {-| A reusable style. Css.batch combines multiple styles into one, much
@@ -52,7 +53,8 @@ headroomUnfixedStyle =
     Css.batch
     [position relative
     , flex auto
-    , height (px 60)
+    , height (px 70)
+--    , minHeight fillAvailable
     , backgroundColor (hex "353747")]
 
 navBarLinks : Style
@@ -63,4 +65,5 @@ navBarLinks =
      , textDecoration none
      , fontSize (rem 1.5)
      , hover [ color (hex "bbb")]
+--     , Breakpoint.large [color (hex "#000"), textDecoration underline]
      ]

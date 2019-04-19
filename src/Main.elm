@@ -40,21 +40,13 @@ legacyBorderRadius amount =
         , CSS.property "border-radius" amount
         ]
 
-
 view : Model -> Document Msg
 
 view model =
     let
---        inline =
---            HA.style "display" "inline-block"
---
---        padded =
---            HA.style "padding" "10px"
-
         menu =
---              div [ css [ borderBottom3 (px 5) solid (hex "c0c0c0"), padding (px 10) ]]
                 div [ css [ headroomUnfixedStyle ]]
-                [ div [css [margin (px 20), backgroundColor (hex "353747"), float right ] ]
+                [ div [css [padding (px 20), float right ] ]
                 [a [ css [ navBarLinks ], href "/" ] [ text "Home" ]
                 , a [ css [ navBarLinks ], href "/about" ] [ text "About" ]
                 , a [ css [ navBarLinks ], href "/events" ] [ text "Events" ]
@@ -62,6 +54,7 @@ view model =
                 , a [ css [ navBarLinks ], href "/team" ] [ text "Team" ]
                 , a [ css [ navBarLinks ], href "/contact" ] [ text "Contact" ]
                 ]]
+
         pageBody =
             case model.route of
                 Just route ->
