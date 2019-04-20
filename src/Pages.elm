@@ -49,7 +49,8 @@ teamWrapper =
 --          , display
     ]]
     [text ("teamWrapper here")
-    , img [Asset.src Asset.possum] []]
+    , img [Asset.src Asset.possum] []
+    ]
 
 contact : Html msg
 contact =
