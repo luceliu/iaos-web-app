@@ -11,24 +11,24 @@ import Asset
 
 home : Html msg
 home =
-    div [ css [ border3 (px 5) solid (rgb 120 120 120) ]] [ p [] [text ("this is home")]]
+    div [ css [pageWrapper]] [ p [] [text ("this is home")]]
 
 about : Html msg
 about =
-    div [ css [ border3 (px 10) solid (rgb 2 5 100) ]] [ p [] [text ("this is about")]]
+    div [ css [pageWrapper]] [ p [] [text ("this is about")]]
 
 events : Html msg
 events =
-    div [ css [ border3 (px 10) solid (rgb 2 50 5) ]] [ p [] [text ("this is events")]]
+    div [ css [pageWrapper]] [ p [] [text ("this is events")]]
 
 blog : Html msg
 blog =
-    div [ css [ border3 (px 10) solid (rgb 200 50 5) ]] [ p [] [text ("this is blog")]]
+    div [ css [pageWrapper]] [ p [] [text ("this is blog")]]
 
 team : Html msg
 team =
     div
-    [ css [ border3 (px 10) solid (rgb 50 50 150) ]]
+    [ css [pageWrapper]]
     [ p [] [text ("this is TEAM"), teamWrapper]]
 
 teamWrapper : Html msg
@@ -49,8 +49,9 @@ teamWrapper =
 --          , display
     ]]
     [text ("teamWrapper here")
-    , img [Asset.src Asset.possum] []]
+    , img [Asset.src Asset.possum] []
+    ]
 
 contact : Html msg
 contact =
-    div [ css [ border3 (px 10) solid (rgb 100 100 5) ]] [ p [] [text ("this is contact")]]
+    div [ css [pageWrapper]] [ p [] [text ("this is contact")]]

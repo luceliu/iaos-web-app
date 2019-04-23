@@ -1,0 +1,31 @@
+{
+  "name": "iaos-site",
+  "version": "1.0.0",
+  "description": "This project is bootstrapped with [Create Elm App](https://github.com/halfzebra/create-elm-app).",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "api": "elm-graphql http://localhost:3000/graphql --base IaosPosts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/luceliu/iaos-web-app.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/luceliu/iaos-web-app/issues"
+  },
+  "homepage": "https://github.com/luceliu/iaos-web-app#readme",
+  "devDependencies": {
+    "@dillonkearns/elm-graphql": "^3.4.0",
+    "remark-html": "^9.0.0",
+    "remark-parse": "^6.0.3"
+  },
+  "dependencies": {
+    "elm-graphql": "^1.0.6"
+  }
+}

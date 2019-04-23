@@ -55,7 +55,9 @@ headroomUnfixedStyle =
     , flex auto
     , height (px 70)
 --    , minHeight fillAvailable
-    , backgroundColor (hex "353747")]
+    , backgroundColor (hex "353747")
+    , fontFamilies ["Open Sans"]
+    ]
 
 navBarLinks : Style
 navBarLinks =
@@ -63,7 +65,14 @@ navBarLinks =
     [ margin (px 5)
      , color (hex "fff")
      , textDecoration none
-     , fontSize (rem 1.5)
+     , fontSize (rem 1.2)
      , hover [ color (hex "bbb")]
 --     , Breakpoint.large [color (hex "#000"), textDecoration underline]
+     ]
+
+pageWrapper : Style
+pageWrapper =
+    Css.batch
+    [  border3 (px 5) solid (rgb 120 120 120)
+     , fontFamily sansSerif
      ]
